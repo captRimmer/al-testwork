@@ -1,0 +1,32 @@
+  - name: Insalling nginx zsh wget
+    package:
+      name:
+        - nginx
+        - zsh
+        - wget
+      state: latest
+
+  - name: Replace NGINX config
+    template: 
+     src=templates/nginx.conf
+     dest=/etc/nginx/nginx.conf
+    notify:
+      - NGINX reload
+
+  - name: Add NGINX virtualhost config
+    template:
+     src=templates/nginx_vhost.conf
+     dest=/etc/nginx/conf.d/{{ hostname }}.conf
+    notify:
+      - NGINX reload
+
+  - name: Mkdir for hostname
+    file:
+      path: /var/www/{{ hostname }}
+      state: directory
+
+  - name: Git clone to hostname
+    git:
+      clone: yes
+      dest: /var/www/{{ hostname }}
+      repo: 'https://github.com/captRimmer/testwork.git'

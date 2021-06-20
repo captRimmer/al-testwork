@@ -1,0 +1,21 @@
+---
+- name: Test Connection to servers
+  hosts: all
+  become: yes
+  roles:
+   - nginx
+  vars_files:
+  - secret
+
+#  tasks:
+#
+#  - name: Ping mys servers
+#    ping:
+#  - name: Insalling nginx
+#    package:
+#      name:
+#        - nginx
+#        - zsh
+#        - wget
+#      state: latest
+
